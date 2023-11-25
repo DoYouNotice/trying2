@@ -16,7 +16,7 @@ def scrape_data(url, css_selector):
 
 # List of URLs to scrape
 urls_to_scrape = [
-    "https://geizhals.de/?cat=gra16_512&xf=9816_03+05+17+-+RTX+4080&asuch=&bpmin=&bpmax=&v=e&hloc=at&hloc=de&plz=&dist=&mail=&t=v&sort=p&bl1_id=30",
+    "https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4080",
     "https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4070+Ti"
 ]
 
