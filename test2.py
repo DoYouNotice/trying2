@@ -1,10 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
+import time  # Import the time module
 
-def scrape_data(url, css_selector, headers):
-    response = requests.get(url, headers=headers)
+def scrape_data(url, css_selector):
+    response = requests.get(url)
     if response.status_code == 200:
-        soup = BeautifulSoup(response.content, 'lxml')
+        soup = BeautifulSoup(response.content, 'html.parser')
         # Use the provided CSS selector to find the desired elements
         selected_elements = soup.select(css_selector)
         
@@ -12,67 +13,35 @@ def scrape_data(url, css_selector, headers):
         for element in selected_elements:
             print(element.text.strip())
     else:
-        print(f"Failed to fetch data from {url}. Status code: {response.status_code}")
+        print(f"Failed to fetch data from {url}")
 
-# List of URLs to scrape
-urls_to_scrape = [
-    
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4090"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4080"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4070+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4070"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4060+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+17+-+RTX+4060"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3090+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3090"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3080+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3080"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3070+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3070"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3060+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3060"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+16+-+RTX+3050"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+15+-+RTX+2080"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+15+-+RTX+2060+SUPER"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+05+15+-+RTX+2060"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+04+15+-+GTX+1660+Ti"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+04+15+-+GTX+1660+SUPER"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+04+15+-+GTX+1660"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+04+15+-+GTX+1650+SUPER"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+04+15+-+GTX+1650"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_03+04+15+-+GTX+1630"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+14+-+RX+7900+XTX"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+14+-+RX+7900+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+14+-+RX+7800+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+14+-+RX+7700+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+14+-+RX+7600"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6950+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6900+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6800+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6800"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6750+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6700+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6700"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6650+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6600+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6600"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6500+XT"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+12+-+RX+6400"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+10+-+RX+5700"
-"https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30&xf=9816_02+04+10+-+RX+5600+XT"
+# Original code to extract links
+url = "https://geizhals.de/?cat=gra16_512&v=e&hloc=at&hloc=de&t=v&sort=p&bl1_id=30"
+response = requests.get(url)
 
-]
+if response.status_code == 200:
+    soup = BeautifulSoup(response.text, 'html.parser')
+    link_elements = soup.select('tr.xf_tr:nth-child(4) > td:nth-child(3) a')
+    extracted_links = [link['href'][2:] for link in link_elements if "NVIDIA+alt" not in link['href']
+                       and "AMD+alt" not in link['href']
+                       and "Professional" not in link['href']
+                       and "Matrox" not in link['href']
+                       and "Intel" not in link['href']]
+else:
+    print(f"Failed to retrieve the page. Status code: {response.status_code}")
+    extracted_links = []  # Set an empty list if the extraction fails
 
 # CSS selector to extract data
 css_selector = "#product0 > div:nth-child(8) > span:nth-child(1) > span:nth-child(1)"
 
-# User-Agent header
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-}
-
-# Loop through each URL and scrape data
-for url in urls_to_scrape:
-    print(f"Scraping data from: {url}")
-    scrape_data(url, css_selector, headers)
+# Loop through each URL and scrape data with a 5-second delay
+for url_fragment in extracted_links:
+    full_url = "https://geizhals.de/" + url_fragment  # Add the correct scheme and domain
+    print(f"Scraping data from: {full_url}")
+    
+    scrape_data(full_url, css_selector)
+    
+    # Add a 15-second delay
+    time.sleep(5)
+    
     print("\n" + "="*50 + "\n")
