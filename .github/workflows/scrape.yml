@@ -25,7 +25,7 @@ jobs:
 
     - name: Run scraping script and save output
       run: |
-        python your_script.py > output.txt
+        python test2.py > output.txt
       # Or use the following line to save the output as an artifact
       # run: python your_script.py > ${{ github.workspace }}/output.txt
 
