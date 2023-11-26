@@ -42,6 +42,6 @@ for url_fragment in extracted_links:
     scrape_data(full_url, css_selector)
     
     # Add a 15-second delay
-    time.sleep(5)
+    time.sleep(60)
     
     print("\n" + "="*50 + "\n")
